@@ -1,0 +1,43 @@
+PUT /_index_template/template_3mf_project
+{
+  "index_patterns": "3mf_project*",
+  "template": {
+    "settings": {
+      "number_of_shards": 3,
+      "number_of_replicas": 2,
+      "analysis": {
+        "analyzer": {
+          "default": {
+            "type": "custom",
+            "tokenizer": "standard",
+            "filter": ["lowercase", "asciifolding"]
+          }
+        }
+      }
+    },
+    "mappings": {
+      "properties": {
+        "location": {
+          "type": "geo_point"
+        },
+        "prix": {
+          "type": "long"
+        },
+        "typeproduit": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          },
+          "analyzer": "default"  # Utilisation de l'analyseur personnalisé pour un traitement optimal des textes
+        },
+        "agent_timestamp": {
+          "type": "date",
+          "format": "yyyy-MM-dd_HHmmss||strict_date_time||strict_date_optional_time||epoch_millis||strict_date_optional_time_nanos"
+        }
+      }
+    }
+  }
+}
