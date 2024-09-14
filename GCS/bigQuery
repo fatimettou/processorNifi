@@ -27,6 +27,14 @@ FROM
 
   /***************CALCUL DE CHIFFRE D 'AFFAIRE '********************/
 
-  SELECT confort,CENTROID_ID,sum(prix_travel)as chiffre_affaire from (SELECT * FROM ML.PREDICT(MODEL mfproject-435512.dataset_3mf_project.3mf_model,(SELECT prix_travel, confort, CAST(REGEXP_EXTRACT(locationClient ,'(.*)?,') as FLOAT64) as lon,
-  CAST(REGEXP_EXTRACT(locationClient ,',(.*)?') as FLOAT64) as lat
-  FROM mfproject-435512.dataset_3mf_project.external_table_3mf_project ))) group by CENTROID_ID, confort
+SELECT confort,
+       CENTROID_ID,
+       sum(prix_travel) AS chiffre_affaire
+FROM
+  (SELECT *
+   FROM ML.PREDICT(MODEL `mfproject-435512.dataset_3mf_project.3mf_model`,
+                     (SELECT prix_travel, confort,
+                             CAST(REGEXP_EXTRACT(locationClient, '(.*)?,') AS FLOAT64) AS lon,
+                             CAST(REGEXP_EXTRACT(locationClient, ',(.*)?') AS FLOAT64) AS lat
+                      FROM `mfproject-435512.dataset_3mf_project.external_table_3mf_project`)))
+GROUP BY CENTROID_ID, confort;
