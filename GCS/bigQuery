@@ -1,13 +1,15 @@
 SELECT * FROM `mfproject-435512.dataset_3mf_project.table_3mf` LIMIT 10
+/****************CREATE TABLE EXTERNAL*******************/
+
+CREATE EXTERNAL TABLE `mfproject-435512.dataset_3mf_project.external_table_3mf_project`
+OPTIONS(
+  format = 'PARQUET',
+  uris = ['gs://bucket_3mf_project/*.parquet']
+);
 
 
-CREATE OR REPLACE MODEL
-  `mfproject-435512.dataset_3mf_project.3mf_model`
-OPTIONS
-  (MODEL_TYPE='KMEANS',
-   NUM_CLUSTERS=8 ,
-    standardize_features = true) AS
-SELECT lon, lat FROM `mfproject-435512.dataset_3mf_project.table_3mf`
+
+
 
 /**********CREATION DU MODEL *********/
 CREATE OR REPLACE MODEL
