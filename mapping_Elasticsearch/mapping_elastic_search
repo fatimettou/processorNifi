@@ -4,38 +4,58 @@ PUT /_index_template/template_3mf_project
   "template": {
     "settings": {
       "number_of_shards": 3,
-      "number_of_replicas": 2,
-      "analysis": {
-        "analyzer": {
-          "default": {
-            "type": "custom",
-            "tokenizer": "standard",
-            "filter": ["lowercase", "asciifolding"]
-          }
-        }
-      }
+      "number_of_replicas": 2
     },
     "mappings": {
       "properties": {
-        "location": {
-          "type": "geo_point"
-        },
-        "prix": {
-          "type": "long"
-        },
-        "typeproduit": {
+        "nomclient": {
           "type": "text",
           "fields": {
             "keyword": {
               "type": "keyword",
               "ignore_above": 256
             }
-          },
-          "analyzer": "default"  # Utilisation de l'analyseur personnalisé pour un traitement optimal des textes
+          }
+        },
+        "telephoneClient": {
+          "type": "keyword"
+        },
+        "locationClient": {
+          "type": "geo_point"
+        },
+        "distance": {
+          "type": "float"
+        },
+        "nomDriver": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "locationDriver": {
+          "type": "geo_point"
+        },
+        "telephoneDriver": {
+          "type": "keyword"
+        },
+        "prix_travel": {
+          "type": "float"
+        },
+        "confort": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
         },
         "agent_timestamp": {
           "type": "date",
-          "format": "yyyy-MM-dd_HHmmss||strict_date_time||strict_date_optional_time||epoch_millis||strict_date_optional_time_nanos"
+          "format": "yyyy-MM-dd'T'HH:mm:ssZ||strict_date_optional_time||epoch_millis"
         }
       }
     }
